@@ -1,18 +1,17 @@
 FROM ubuntu:18.04
 RUN apt-get update -y && \
-apt-get install -y qemu-kvm libvirt-daemon-system libvirt-dev&& \
-apt-get install -y curl net-tools jq&& \
-apt-get autoclean&& \
-apt-get autoremove&& \
+apt-get install -y qemu-kvm libvirt-daemon-system libvirt-dev ssh && \
+apt-get install -y curl net-tools jq && \
+apt-get autoclean && \
+apt-get autoremove && \
 curl -O https://releases.hashicorp.com/vagrant/$(curl -s https://checkpoint-api.hashicorp.com/v1/check/vagrant  | jq -r -M '.current_version')/vagrant_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/vagrant  | jq -r -M '.current_version')_x86_64.deb&& \
 dpkg -i vagrant_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/vagrant  | jq -r -M '.current_version')_x86_64.deb
 RUN vagrant plugin install vagrant-libvirt
 RUN vagrant box add --provider libvirt peru/windows-10-enterprise-x64-eval
 RUN vagrant init peru/windows-10-enterprise-x64-eval
-
-# docker build -t win-inside-docker .
-# docker run docker run --privileged --rm -it win-inside-docker
+# docker build , then : 
+# docker run --privileged --rm -it win-inside-docker
 # service libvirtd start
 # service virtlogd start
-# vagrant up
+# vagrant up 
 # ;)
